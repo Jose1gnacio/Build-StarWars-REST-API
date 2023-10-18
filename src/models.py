@@ -17,3 +17,74 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+class People(db.Model):
+    __tablename__ = 'people'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+
+class Planets(db.Model):
+    __tablename__ = 'planets'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+
+class Favorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
+    people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "planet_id": self.planet_id,
+            "people_id": self.people_id
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
